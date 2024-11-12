@@ -1,5 +1,5 @@
 name: mad-dev-guides-m7
-title: Module 7 - Accelerating Software development with RH Developer Hub
+title: Module 7 - RH Developer Hub로 소프트웨어 개발 가속화
 version: main
 nav:
   - modules/ROOT/nav.adoc

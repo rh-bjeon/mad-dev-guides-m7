@@ -1,430 +1,433 @@
-= 3. Application Development - 25 minutes
+= 3. 애플리케이션 개발 - 25분
 :imagesdir: ../assets/images
 
-== Goals of this lab
+== 이 랩의 목표
 
-This lab aims to explore further modernization by using new software templates. Additionally, it shows how developers can code freely using *Red Hat OpenShift Dev Spaces*. In this section, you will migrate the *gateway* and *frontend* microservices to complete the deployment of the Cool Store Application.
+이 랩의 목표는 새로운 소프트웨어 템플릿을 사용하여더 많은 현대화를 모색하는 것입니다. 
 
-*Module goals*:
+또한 개발자가 **Red Hat OpenShift Dev Spaces**를 사용하여 자유롭게 코딩하는 방법을 보여줍니다. 이 섹션에서는 **gateway** 및 **frontend** 마이크로서비스를 마이그레이션하여 Cool Store 애플리케이션의 배포를 완료합니다.
 
-* Create a component for a *Frontend NodeJS (Angular) Application* using existing *software templates*.
-* Create a component for a *Gateway Java Application* using existing *software templates*.
-* Overview of application details, ArgoCD and cluster information.
-* Explore GitLab issues with Red Hat Developer Hub.
-* Fix a GitLab issue using Red Hat OpenShift Dev Spaces.
-* Explore APIs and application Dependencies.
 
-== 3.1 Move the Gateway Java application
+**모듈 목표**:
 
-=== 3.1.1 Use Software Templates to build and deploy your first Gateway application
+* 기존 **소프트웨어 템플릿**을 사용하여 **Frontend NodeJS(Angular) 애플리케이션**의 컴포넌트를 생성합니다.
+* 기존 **소프트웨어 템플릿**을 사용하여 **Gateway Java 애플리케이션**의 컴포넌트를 생성합니다.
+* 애플리케이션 세부정보, ArgoCD 및 클러스터 정보의 개요를 확인합니다.
+* Red Hat Developer Hub에서 GitLab 이슈를 확인합니다.
+* Red Hat OpenShift Dev Spaces를 사용하여 GitLab 이슈를 해결합니다.
+* API와 애플리케이션 종속성을 살펴봅니다.
 
-* From the left menu, click on *Create*:
+== 3.1 Gateway Java 애플리케이션 이동
 
-* Select the *Java Gateway Application* Template:
+=== 3.1.1 소프트웨어 템플릿을 사용하여 첫 번째 Gateway 애플리케이션 빌드 및 배포
 
-image:module3/software_templates_gateway.png[width=50%]  
+* 왼쪽 메뉴에서 *만들기*를 클릭하세요:
 
-Follow the next steps to create a component based on the pre-defined Software Templates:
+* *Java Gateway Application* 템플릿을 선택하세요:
 
-*Step 1* - Provide information about the GitLab location :
+이미지:모듈3/소프트웨어_템플릿_게이트웨이.png[너비=50%]  
 
-* *Repo Host*: is the GitLab domain already installed in OpenShift. Red Hat Developer Hub will use this input data to upload the source repository and manifests. 
+미리 정의된 소프트웨어 템플릿을 기반으로 구성 요소를 만들려면 다음 단계를 따르세요.
 
-** Replace the *Repo Host* with the OpenShift domain: 
+*1단계* - GitLab 위치에 대한 정보 제공:
 
-[.console-input]
-[source,bash]
+* *Repo Host*: OpenShift에 이미 설치된 GitLab 도메인입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 소스 리포지토리와 매니페스트를 업로드합니다.
+
+** *Repo Host*를 OpenShift 도메인으로 교체:
+
+[.콘솔-입력]
+[소스, bash]
 ----
 gitlab-gitlab.%SUBDOMAIN%
 ----
 
-image:module3/st_gitlab_info.png[width=65%]  
+이미지:module3/st_gitlab_info.png[너비=65%]  
 
-* *Repo Group*: is the GitLab organization already configured. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
+* *Repo Group*: 이미 구성된 GitLab 조직입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 소스 리포지토리와 매니페스트를 업로드합니다.
 
-* Click on *Next*
+* *다음*을 클릭하세요
 
-*Step 2* - Provide information about the Cluster Id :
+*2단계* - 클러스터 ID에 대한 정보 제공:
 
-* *Cluster Id*: is the OpenShift domain. Red Hat Developer Hub will use this input data to build and deploy the application.
+* *클러스터 ID*: OpenShift 도메인입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 애플리케이션을 빌드하고 배포합니다.
 
-** Replace the *Cluster Id* with the OpenShift domain:
+** *클러스터 ID*를 OpenShift 도메인으로 바꾸세요:
 
-[.console-input]
-[source,bash]
+[.콘솔-입력]
+[소스, bash]
 ----
-.%SUBDOMAIN%
+.%하위 도메인%
 ----
 
-image:module3/st_component_clusterid.png[width=65%]  
+이미지:모듈3/st_component_clusterid.png[너비=65%]  
 
-* *Namespace*:  is the OpenShift namespace. Red Hat Developer Hub will use this input data to build and deploy the application in that namespace.
+* *네임스페이스*: OpenShift 네임스페이스입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 해당 네임스페이스에서 애플리케이션을 빌드하고 배포합니다.
 
-** Replace the *Namespace* with:
+** *네임스페이스*를 다음으로 바꾸세요:
 
-[.console-input]
-[source,bash]
+[.콘솔-입력]
+[소스, bash]
 ----
 rhdhub-%USERID%
 ----
 
-image:module3/st_component_namespace.png[width=40%]  
+이미지:모듈3/st_component_namespace.png[너비=40%]  
 
-*Note*: Each lab participant is already assigned a unique namespace to be used for all the applications. Each application will have a shared identification based on your user name. 
+*참고*: 각 랩 참가자는 모든 애플리케이션에 사용할 고유한 네임스페이스를 이미 할당받았습니다. 각 애플리케이션은 사용자 이름을 기반으로 공유된 식별을 갖게 됩니다.
 
-* *Owner*: The owner is your user ID. Red Hat Developer Hub will use this input data in the build and deployment process.
-** Write your user id: 
+* *소유자*: 소유자는 사용자 ID입니다. Red Hat Developer Hub는 이 입력 데이터를 빌드 및 배포 프로세스에 사용합니다.
+** 사용자 ID를 입력하세요:
 
-[.console-input]
-[source,bash]
+[.콘솔-입력]
+[소스, bash]
 ----
-%USERID%
-----
-
-image:module3/st_component_owner.png[width=40%]  
-
-* Click on *Next*.
-
-*Step 3* - Provide Build information:
-
-* *Image Host*: The application image will be stored in this registry URL. For this lab, we are using the internal registry of OpenShift. Red Hat Developer Hub will use this input data for the application's build and deployment process.
-
-* *Image Tag*: The image tag used to identify the image. The image will be composed by the application name and tag. Red Hat Developer Hub will use this input data for the application's build and deployment process.
-
-* *Component ID*: The component ID is the application name. Red Hat Developer Hub will use this input data for the application's build and deployment process.
-
-** Replace the *Component ID* using *YOUR* user number: 
-
-[.console-input]
-[source,bash]
-----
-gateway-app-%USERID%
+%사용자ID%
 ----
 
-image:module3/st_component_componentid_gateway.png[width=65%]  
+이미지:module3/st_component_owner.png[너비=40%]  
 
-* Click on *Review*.
+* *다음*을 클릭하세요.
 
-* Review the data.
+*3단계* - 빌드 정보 제공:
 
-*Sample data*
+* *이미지 호스트*: 애플리케이션 이미지는 이 레지스트리 URL에 저장됩니다. 이 랩에서는 OpenShift의 내부 레지스트리를 사용합니다. Red Hat Developer Hub는 이 입력 데이터를 애플리케이션의 빌드 및 배포 프로세스에 사용합니다.
 
-image:module3/st_component_review_gateway.png[width=80%]  
+* *이미지 태그*: 이미지를 식별하는 데 사용되는 이미지 태그입니다. 이미지는 애플리케이션 이름과 태그로 구성됩니다. Red Hat Developer Hub는 이 입력 데이터를 애플리케이션의 빌드 및 배포 프로세스에 사용합니다.
 
-* Click on *Create*.
+* *구성 요소 ID*: 구성 요소 ID는 애플리케이션 이름입니다. Red Hat Developer Hub는 이 입력 데이터를 애플리케이션의 빌드 및 배포 프로세스에 사용합니다.
 
-=== 3.1.2 Explore the application overview
-*Congratulations* you have built your first Java Gateway application with *Red Hat Developer Hub*. It is time to explore the components and explore the application overview.
+** *구성 요소 ID*를 *귀하*의 사용자 번호로 바꾸세요:
 
-* With all your activities in green, click *Open Component in catalog*. 
+[.콘솔-입력]
+[소스, bash]
+----
+게이트웨이-앱-%USERID%
+----
 
-image:module3/task_activity.png[width=100%]  
+이미지:모듈3/st_component_componentid_gateway.png[너비=65%]  
 
-* RHDH will open a new tab with the component information. 
+* *리뷰*를 클릭하세요.
 
-** Take some time to review the information in the screen:
+* 데이터를 검토하세요.
 
-image:module3/gateway_overview.png[width=100%]  
+*샘플 데이터*
 
-* Click on *CI* to review your pipeline information.
-The pipeline will be triggered in a few seconds. After a few minutes, you will see the pipeline finished as *Succeeded*.
+이미지:모듈3/st_component_review_gateway.png[너비=80%]  
 
-image:module3/gateway_pipelines.png[width=100%] 
+* *만들기*를 클릭하세요.
 
-* Click on *TOPOLOGY* to review your deployment status.
-The deployment will be in *blue* immediately after the pipeline succeeds.
+=== 3.1.2 애플리케이션 개요 탐색
+*축하합니다* *Red Hat Developer Hub*로 첫 번째 Java Gateway 애플리케이션을 빌드했습니다. 이제 구성 요소를 살펴보고 애플리케이션 개요를 살펴볼 시간입니다.
 
-** Click on the deployment *gateway-app-%USERID%*
+* 모든 활동이 녹색으로 표시되면 *카탈로그에서 구성 요소 열기*를 클릭합니다.
 
-At your right the application details is available. 
+이미지:모듈3/task_activity.png[너비=100%]  
 
-image:module3/gateway_deployment.png[width=80%] 
+* RHDH는 구성 요소 정보가 있는 새 탭을 엽니다.
 
-* Click on *KUBERNETES* to review your application status.
-You might find the pods still not ready. Wait a few seconds to see everything in green. 
+** 화면의 정보를 검토할 시간을 가지세요.
 
-*Note*: *1 pod with errors* indicates that a pod has failed as it shows on the *Error Reporting* section. The issue was resolved and now all the pods are in green.
+이미지:모듈3/게이트웨이_개요.png[너비=100%]  
 
-image:module3/gateway_yourclusters.png[width=100%] 
+* *CI*를 클릭하여 파이프라인 정보를 검토하세요.
+파이프라인은 몇 초 후에 트리거됩니다. 몇 분 후에 파이프라인이 *성공*으로 완료된 것을 볼 수 있습니다.
 
-** Expand the pods information:
+이미지:모듈3/게이트웨이_파이프라인.png[너비=100%]
 
-image:module3/gateway_kubernetes_clusters_ok.png[width=100%] 
+* 배포 상태를 검토하려면 *토폴로지*를 클릭하세요.
+파이프라인이 성공하면 배포가 즉시 *파란색*으로 표시됩니다.
 
-With everything in green, you are ready to move to the next session.
+** 배포 *gateway-app-%USERID%*를 클릭하세요.
 
-*Note*: We will continue exploring this view in the next section.
+오른쪽에서 신청서 세부 정보를 확인하실 수 있습니다.
 
-== 3.2 Move the frontend NodeJS application 
+이미지:module3/gateway_deployment.png[너비=80%]
 
-=== 3.2.1 Use Software Templates to build and deploy your first Frontend application
+* *KUBERNETES*를 클릭하여 신청 상태를 확인하세요.
+포드가 아직 준비되지 않은 것을 발견할 수도 있습니다. 모든 것이 녹색으로 표시될 때까지 몇 초 동안 기다리세요.
 
-* From the left menu, click on *Create*:
+*참고*: *오류가 있는 pod 1개*는 *오류 보고* 섹션에 표시된 대로 pod가 실패했음을 나타냅니다. 문제가 해결되었고 이제 모든 pod가 녹색입니다.
 
-* Select the *Frontend Application* Template:
+이미지:module3/gateway_yourclusters.png[너비=100%]
 
-image:module3/software_templates_frontend.png[width=50%]  
+** 포드 정보 확장:
 
-Follow the next steps to create a component based on the pre-defined Software Templates:
+이미지:모듈3/게이트웨이_쿠버네티스_클러스터_ok.png[너비=100%]
 
-*Step 1* - Provide information about the GitLab location :
+모든 내용이 녹색이면 다음 세션으로 넘어갈 준비가 된 것입니다.
 
-* *Repo Host*: is the GitLab domain already installed in OpenShift. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
+*참고*: 다음 섹션에서 이 관점을 계속해서 살펴보겠습니다.
 
-** Replace the *Repo Host* with the OpenShift domain: 
+== 3.2 프런트엔드 NodeJS 애플리케이션 이동
 
-[.console-input]
-[source,bash]
+=== 3.2.1 소프트웨어 템플릿을 사용하여 첫 번째 프런트엔드 애플리케이션을 빌드하고 배포하세요.
+
+* 왼쪽 메뉴에서 *만들기*를 클릭하세요:
+
+* *프런트엔드 애플리케이션* 템플릿을 선택하세요:
+
+이미지:module3/software_templates_frontend.png[너비=50%]  
+
+미리 정의된 소프트웨어 템플릿을 기반으로 구성 요소를 만들려면 다음 단계를 따르세요.
+
+*1단계* - GitLab 위치에 대한 정보 제공:
+
+* *Repo Host*: OpenShift에 이미 설치된 GitLab 도메인입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 소스 리포지토리와 매니페스트를 업로드합니다.
+
+** *Repo Host*를 OpenShift 도메인으로 교체:
+
+[.콘솔-입력]
+[소스, bash]
 ----
 gitlab-gitlab.%SUBDOMAIN%
 ----
 
-image:module3/st_gitlab_info.png[width=65%]  
+이미지:module3/st_gitlab_info.png[너비=65%]  
 
-* *Repo Group*: is the GitLab organization already configured. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
+* *Repo Group*: 이미 구성된 GitLab 조직입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 소스 리포지토리와 매니페스트를 업로드합니다.
 
-* Click on *Next*.
+* *다음*을 클릭하세요.
 
-*Step 2* - Provide information about the Cluster Id.
+*2단계* - 클러스터 ID에 대한 정보를 제공합니다.
 
-* *Cluster Id*: is the OpenShift domain. Red Hat Developer Hub will use this input data to build and deploy the application.
+* *클러스터 ID*: OpenShift 도메인입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 애플리케이션을 빌드하고 배포합니다.
 
-** Replace the *Cluster Id* with the OpenShift domain:
+** *클러스터 ID*를 OpenShift 도메인으로 바꾸세요:
 
-[.console-input]
-[source,bash]
+[.콘솔-입력]
+[소스, bash]
 ----
-.%SUBDOMAIN%
+.%하위 도메인%
 ----
 
-image:module3/st_component_clusterid.png[width=65%]  
+이미지:모듈3/st_component_clusterid.png[너비=65%]  
 
-* *Namespace*:  is the OpenShift namespace. Red Hat Developer Hub will use this input data to build and deploy the application in that namespace.
+* *네임스페이스*: OpenShift 네임스페이스입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 해당 네임스페이스에서 애플리케이션을 빌드하고 배포합니다.
 
-** Replace the *Namespace* with:
+** *네임스페이스*를 다음으로 바꾸세요:
 
-[.console-input]
-[source,bash]
+[.콘솔-입력]
+[소스, bash]
 ----
 rhdhub-%USERID%
 ----
 
-image:module3/st_component_namespace.png[width=40%]  
+이미지:모듈3/st_component_namespace.png[너비=40%]  
 
-*Note*: Each lab participant is already assigned a unique namespace to be used for all the applications. Each application will have a shared identification based on your user name. 
+*참고*: 각 랩 참가자는 모든 애플리케이션에 사용할 고유한 네임스페이스를 이미 할당받았습니다. 각 애플리케이션은 사용자 이름을 기반으로 공유된 식별을 갖게 됩니다.
 
-* *Owner*: The owner is your user ID. Red Hat Developer Hub will use this input data in the build and deployment process.
-** Write your user id: 
+* *소유자*: 소유자는 사용자 ID입니다. Red Hat Developer Hub는 이 입력 데이터를 빌드 및 배포 프로세스에 사용합니다.
+** 사용자 ID를 입력하세요:
 
-[.console-input]
-[source,bash]
+[.콘솔-입력]
+[소스, bash]
 ----
-%USERID%
-----
-
-image:module3/st_component_owner.png[width=40%]  
-
-* Click on *Next*.
-
-*Step 3* - Provide Build information.
-
-* *Image Host*: The application image will be stored in this registry URL. For this lab, we are using the internal registry of OpenShift. Red Hat Developer Hub will use this input data for the application's build and deployment process.
-
-* *Image Tag*: The image tag used to identify the image. The image will be composed by the application name and tag. Red Hat Developer Hub will use this input data for the application's build and deployment process.
-
-* *Component ID*: The component ID is the application name. Red Hat Developer Hub will use this input data for the application's build and deployment process.
-
-** Replace the *Component ID* using *YOUR* user number: 
-
-[.console-input]
-[source,bash]
-----
-frontend-app-%USERID%
+%사용자ID%
 ----
 
-image:module3/st_component_componentid_frontend.png[width=65%]  
+이미지:module3/st_component_owner.png[너비=40%]  
 
-* Click on *Review*.
+* *다음*을 클릭하세요.
 
-* Review the data.
+*3단계* - 빌드 정보 제공
 
-*Sample data*
+* *이미지 호스트*: 애플리케이션 이미지는 이 레지스트리 URL에 저장됩니다. 이 랩에서는 OpenShift의 내부 레지스트리를 사용합니다. Red Hat Developer Hub는 이 입력 데이터를 애플리케이션의 빌드 및 배포 프로세스에 사용합니다.
 
-image:module3/st_component_review_frontend.png[width=100%]  
+* *이미지 태그*: 이미지를 식별하는 데 사용되는 이미지 태그입니다. 이미지는 애플리케이션 이름과 태그로 구성됩니다. Red Hat Developer Hub는 이 입력 데이터를 애플리케이션의 빌드 및 배포 프로세스에 사용합니다.
 
-* Click on *Create*.
+* *구성 요소 ID*: 구성 요소 ID는 애플리케이션 이름입니다. Red Hat Developer Hub는 이 입력 데이터를 애플리케이션의 빌드 및 배포 프로세스에 사용합니다.
 
-=== 3.2.2 Explore the application overview
+** *구성 요소 ID*를 *귀하*의 사용자 번호로 바꾸세요:
 
-*Congratulations* you have built your first frontend application with *Red Hat Developer Hub*. It is time to explore the components and explore the application overview.
+[.콘솔-입력]
+[소스, bash]
+----
+프런트엔드 앱-%USERID%
+----
 
-* With all your activities in green, click *Open Component in catalog*. 
+이미지:모듈3/st_component_componentid_frontend.png[너비=65%]  
 
-image:module3/task_activity.png[width=100%]  
+* *리뷰*를 클릭하세요.
 
-* RHDH will open a new tab with the component information. 
+* 데이터를 검토하세요.
 
-** Review the information in the screen:
+*샘플 데이터*
 
-image:module3/frontend_overview.png[width=100%] 
+이미지:모듈3/st_component_review_frontend.png[너비=100%]  
 
-* Click on *CI* to review your pipeline information.
-The pipeline will be triggered in a few seconds. After a few minutes, you will see the pipeline finished as *Succeeded*.
+* *만들기*를 클릭하세요.
 
-image:module3/frontend_pipeline.png[width=100%] 
+=== 3.2.2 애플리케이션 개요 탐색
 
-* Click on *TOPOLOGY* to review your deployment status.
-The deployment will be in *blue* immediately after the pipeline succeeds.
+*축하합니다* *Red Hat Developer Hub*로 첫 번째 프런트엔드 애플리케이션을 빌드했습니다. 이제 구성 요소를 살펴보고 애플리케이션 개요를 살펴볼 시간입니다.
 
-** Click on the deployment *frontend-app-%USERID%*
+* 모든 활동이 녹색으로 표시되면 *카탈로그에서 구성 요소 열기*를 클릭합니다.
 
-At your right the application details is available. 
+이미지:모듈3/task_activity.png[너비=100%]  
 
-image:module3/frontend_topology.png[width=100%] 
+* RHDH는 구성 요소 정보가 있는 새 탭을 엽니다.
 
-* Click on *CD* to review ARGOCD History.
+** 화면의 정보를 검토하세요:
 
-image:module3/frontend_argohistory.png[width=100%] 
+이미지:module3/frontend_overview.png[너비=100%]
 
-* Click on *API* to review the consumed/provided API for the frontend application.
+* *CI*를 클릭하여 파이프라인 정보를 검토하세요.
+파이프라인은 몇 초 후에 트리거됩니다. 몇 분 후에 파이프라인이 *성공*으로 완료된 것을 볼 수 있습니다.
 
-image:module3/frontend_apiconsume.png[width=100%] 
+이미지:모듈3/프론트엔드_파이프라인.png[너비=100%]
 
-* Access the Cool Store UI to verify everything is working as expected:
+* 배포 상태를 검토하려면 *토폴로지*를 클릭하세요.
+파이프라인이 성공하면 배포가 즉시 *파란색*으로 표시됩니다.
 
-** Click on the https://frontend-app-%USERID%-rhdhub-%USERID%.%SUBDOMAIN%/[Cool Store web page^]
+** 배포 *frontend-app-%USERID%*를 클릭하세요.
 
-image::module3/ui_web.png[width=100%]
+오른쪽에서 신청서 세부 정보를 확인하실 수 있습니다.
 
-=== 3.5 Fix an issue reported about the application
+이미지:모듈3/프론트엔드_토폴로지.png[너비=100%]
 
-As a developer, you need to work on many feature requests or issues. In this use case, you will fix a problem with the title in the front-end application. Red Hat Developer Hub is a single pane of glass that allows you to access all the tools and information for your app from one single place. 
+* ARGOCD 기록을 확인하려면 *CD*를 클릭하세요.
 
-1. Go back to your frontend component on the Red Hat Developer Hub: https://developer-hub-backstage-rhdhub.%SUBDOMAIN%/catalog/default/component/frontend-app-%USERID%[Red Hat Developer Hub UI^].
-2. Look at the GitLab issues by clicking on *ISSUES*. 
-3. You will be able to see any GitLab issues associated with the application. 
+이미지:module3/frontend_argohistory.png[너비=100%]
 
-There is an issue to be fixed:
+* 프런트엔드 애플리케이션에 대해 사용/제공된 API를 검토하려면 *API*를 클릭하세요.
 
-image:module3/frontend_issues.png[width=100%]
+이미지:module3/frontend_apiconsume.png[너비=100%]
 
-* Click on the *issue link* to read the information.
+* Cool Store UI에 액세스하여 모든 것이 예상대로 작동하는지 확인하세요.
 
-image::module3/frontend_issue_desc.png[width=100%]
+** https://frontend-app-%USERID%-rhdhub-%USERID%.%SUBDOMAIN%/[쿨스토어 웹페이지^]를 클릭하세요
 
-* Go back to your frontend component on the Red Hat Developer Hub: https://developer-hub-backstage-rhdhub.%SUBDOMAIN%/catalog/default/component/frontend-app-%USERID%[Red Hat Developer Hub UI^].
+이미지::모듈3/ui_web.png[너비=100%]
 
-3. From the *OVERVIEW* tab click on *OpenShift Dev Spaces (VS Code)* to make the necessary source code changes.
+=== 3.5 응용 프로그램에 대해 보고된 문제를 수정했습니다.
 
-image::module3/frontend_devspaces.png[width=80%]
+개발자로서 여러분은 많은 기능 요청이나 이슈를 처리해야 합니다. 이 사용 사례에서는 프런트엔드 애플리케이션의 제목 문제를 해결합니다. Red Hat Developer Hub는 여러분이 한곳에서 앱의 모든 도구와 정보에 액세스할 수 있게 해주는 단일 창입니다.
 
-4. Log in Red Hat OpenShift Dev Spaces:
+1. Red Hat Developer Hub의 프런트엔드 구성 요소로 돌아갑니다: https://developer-hub-backstage-rhdhub.%SUBDOMAIN%/catalog/default/component/frontend-app-%USERID%[Red Hat Developer Hub UI^].
+2. *ISSUES*를 클릭하여 GitLab 이슈를 확인하세요.
+3. 해당 애플리케이션과 관련된 모든 GitLab 문제를 볼 수 있습니다.
 
-4.1 Click on *Log in with OpenShift* button:
+해결해야 할 문제가 있습니다.
 
-image::module3/devspaces_login.png[width=80%]
+이미지:module3/frontend_issues.png[너비=100%]
 
-* Login with your OpenShift credential in the Red Hat Single Sign-On (RH-SSO) screen:
+* *문제 링크*를 클릭하여 정보를 읽어보세요.
 
- ** *Username*: `%USERID%`
- ** *Password*: `{openshift-password}`
+image::module3/frontend_issue_desc.png[너비=100%]
 
-4.3 Authorize the access by click on *"Allow selected permissions"*
+* Red Hat Developer Hub의 프런트엔드 구성 요소로 돌아갑니다: https://developer-hub-backstage-rhdhub.%SUBDOMAIN%/catalog/default/component/frontend-app-%USERID%[Red Hat Developer Hub UI^].
 
-image::module3/devspaces_authorize.png[width=80%]
+3. *개요* 탭에서 *OpenShift Dev Spaces (VS Code)*를 클릭하여 필요한 소스 코드 변경을 수행합니다.
 
-4.4 Log in GitLab using your credentials:
+이미지::모듈3/프론트엔드_데브스페이스.png[너비=80%]
 
- ** *Username*: `%USERID%`
- ** *Password*: `{openshift-password}`
+4. Red Hat OpenShift Dev Spaces에 로그인:
 
-image::module3/gitlab_authentication.png[width=80%]
+4.1 *OpenShift로 로그인* 버튼을 클릭하세요:
 
-4.4 Authorize *devspaces* to use your account by clicking on the *Authorize* button.
+이미지::모듈3/devspaces_login.png[너비=80%]
 
-image::module3/devspaces_authorize_user.png[width=80%]
+* Red Hat Single Sign-On(RH-SSO) 화면에서 OpenShift 자격 증명으로 로그인합니다.
 
-4.5 Wait for your Red Hat OpenShift Dev Spaces workspace to be ready. This can take a few minutes. You will see a loading screen while the workspace is being provisioned, where Red Hat OpenShift Dev Spaces is creating a workspace based on a devfile stored in the source code repository, which can be customized to include your tools and configuration.
+ ** *사용자 이름*: `%USERID%`
+ ** *비밀번호*: `{openshift-password}`
 
-image::module3/devspaces_loading.png[width=60%]
+4.3 "선택한 권한 허용"을 클릭하여 액세스를 승인합니다.
 
-4.6 Confirm the access by clicking *"Yes, I trust the authors"*.
+이미지::모듈3/devspaces_authorize.png[너비=80%]
 
-image::module3/devspaces_trustauthors.png[width=80%]
+4.4 자격 증명을 사용하여 GitLab에 로그인합니다.
 
-** Click on *Mark Done*
+ ** *사용자 이름*: `%USERID%`
+ ** *비밀번호*: `{openshift-password}`
 
-image::module3/devspaces_view.png[width=80%]
+이미지::모듈3/gitlab_인증.png[너비=80%]
 
+4.4 *인증* 버튼을 클릭하여 *devspaces*가 귀하의 계정을 사용할 수 있도록 인증합니다.
 
-4.7 Expand the `frontend-app-%USERID%` to find for the file: `header.html` as shown in the picture below.
+이미지::모듈3/devspaces_authorize_user.png[너비=80%]
 
-image::module3/file_change.png[width=100%]
+4.5 Red Hat OpenShift Dev Spaces 작업 공간이 준비될 때까지 기다리세요. 몇 분 정도 걸릴 수 있습니다. 작업 공간이 프로비저닝되는 동안 로딩 화면이 표시되고, Red Hat OpenShift Dev Spaces가 소스 코드 리포지토리에 저장된 devfile을 기반으로 작업 공간을 생성하는데, 이 작업 공간은 도구와 구성을 포함하도록 사용자 정의할 수 있습니다.
 
+이미지::모듈3/devspaces_loading.png[너비=60%]
 
-4.8 Update the *Title* in *line 12*, adding your preferred city. You don't need to save the file because the Red Hat OpenShift Dev Spaces automatically saves the changes while you're updating code.
+4.6 *"예, 저자를 신뢰합니다"*를 클릭하여 액세스를 확인합니다.
 
-*Sample:*
+이미지::모듈3/devspaces_trustauthors.png[너비=80%]
 
-image::module3/dev_file_changed.png[width=80%]
+** *완료 표시*를 클릭하세요
 
-4.9 Commit your source code changes.
+이미지::모듈3/devspaces_view.png[너비=80%]
 
-image::module3/icon_source_control.png[width=60%, float=left]
 
-* Click on the *Source Control* icon. 
+4.7 아래 그림과 같이 `frontend-app-%USERID%`를 확장하여 `header.html` 파일을 찾습니다.
 
+이미지::모듈3/파일_변경.png[너비=100%]
 
-    * Add a *Message* for the commit.
-    * Click on Commit *arrow*
-    * Select the option *Commit & Push*.
 
+4.8 *12번째 줄*의 *제목*을 업데이트하고 선호하는 도시를 추가합니다. Red Hat OpenShift Dev Spaces가 코드를 업데이트하는 동안 자동으로 변경 사항을 저장하므로 파일을 저장할 필요가 없습니다.
 
-image::module3/dev_commit.png[width=60%]
+*견본:*
 
+이미지::모듈3/dev_file_changed.png[너비=80%]
 
+4.9 소스 코드 변경 사항을 커밋하세요.
 
+image::module3/icon_source_control.png[너비=60%, 부동 소수점=왼쪽]
 
+* *소스 제어* 아이콘을 클릭합니다.
 
 
-* Confirm the changes
+    * 커밋에 대한 *메시지*를 추가합니다.
+    * Commit을 클릭하세요 *화살표*
+    * *커밋 및 푸시* 옵션을 선택하세요.
 
-image::module3/dev_confirmed.png[width=100%]
 
-* Explore Pipelines from Red Hat Developer Hub.
+이미지::모듈3/dev_commit.png[너비=60%]
 
-Your source code changes triggered a new pipeline to update the version of the frontend application.
 
-* Go back to your frontend component on the Red Hat Developer Hub: https://developer-hub-backstage-rhdhub.%SUBDOMAIN%/catalog/default/component/frontend-app-%USERID%[Red Hat Developer Hub UI^].
 
-* Explore the pipelines by clicking on the *CI*.
 
-image::module3/frontend_newpipeline.png[width=100%]
 
-* Refresh the Cool Store web page.
 
-You will see the *new title* in the Cool Store web page.
+* 변경 사항을 확인하세요
 
-image::module3/final_web.png[width=100%]
+이미지::모듈3/dev_confirmed.png[너비=100%]
 
-*Congratulations!*  You have finished your git request.
+* Red Hat Developer Hub에서 파이프라인을 살펴보세요.
 
-## Bonus Point: Explore applications dependencies and APIs
+소스 코드 변경으로 인해 프런트엔드 애플리케이션 버전을 업데이트하는 새로운 파이프라인이 트리거되었습니다.
 
-* Go back to your frontend component on the Red Hat Developer Hub: https://developer-hub-backstage-rhdhub.%SUBDOMAIN%/catalog/default/component/frontend-app-%USERID%[Red Hat Developer Hub UI^].
+* Red Hat Developer Hub의 프런트엔드 구성 요소로 돌아갑니다: https://developer-hub-backstage-rhdhub.%SUBDOMAIN%/catalog/default/component/frontend-app-%USERID%[Red Hat Developer Hub UI^].
 
-* Click on the *Overview* tab. Next, click on the *workshop-system-rhdhub-%USERID%* section.
+* *CI*를 클릭하여 파이프라인을 살펴보세요.
 
-image::module3/overview_workshop.png[width=80%]
+이미지::모듈3/프론트엔드_새로운파이프라인.png[너비=100%]
 
-* Explore the application components and APIs. 
-** This function is ideal for understanding how systems interact with each other.
+* 쿨스토어 웹페이지를 새로 고칩니다.
 
-image::module3/workshop_detail.png[width=100%]
+쿨스토어 웹페이지에서 *새로운 제목*을 보실 수 있습니다.
 
-* The *Relations* section shows all the services you have installed on your namespace. 
-* The *APIs* section shows the Gateway API the frontend application is consuming to access the backend services information from product catalog to inventory. 
+이미지::모듈3/최종_웹.png[너비=100%]
 
-## Congratulations!
+*축하합니다!* git 요청이 완료되었습니다.
 
-You have successfully built the Cool Store application and learned the benefits of Red Hat Developer Hub with Software Templates reduce developer cognitive load by providing pre-architected and supported approaches to building and deploying a service or software component without having to learn all the details of the technology used to create it.
+## 보너스 포인트: 애플리케이션 종속성 및 API 탐색
+
+* Red Hat Developer Hub의 프런트엔드 구성 요소로 돌아갑니다: https://developer-hub-backstage-rhdhub.%SUBDOMAIN%/catalog/default/component/frontend-app-%USERID%[Red Hat Developer Hub UI^].
+
+* *개요* 탭을 클릭합니다. 다음으로, *workshop-system-rhdhub-%USERID%* 섹션을 클릭합니다.
+
+이미지::모듈3/개요_워크숍.png[너비=80%]
+
+* 애플리케이션 구성 요소와 API를 살펴보세요.
+** 이 기능은 시스템이 서로 상호작용하는 방식을 이해하는 데 이상적입니다.
+
+이미지::모듈3/워크숍_세부사항.png[너비=100%]
+
+* *관계* 섹션에는 네임스페이스에 설치한 모든 서비스가 표시됩니다.
+* API * 섹션에서는 프런트엔드 애플리케이션이 제품 카탈로그에서 재고에 이르기까지 백엔드 서비스 정보에 액세스하는 데 사용하는 게이트웨이 API를 보여줍니다.
+
+## 축하해요!
+
+Cool Store 애플리케이션을 성공적으로 구축했고, 소프트웨어 템플릿을 갖춘 Red Hat Developer Hub의 이점을 알아보았습니다. 소프트웨어 템플릿은 서비스나 소프트웨어 구성 요소를 구축하고 배포하는 데 사용된 기술의 모든 세부 정보를 배우지 않고도 사전 설계된 지원되는 방식을 제공함으로써 개발자의 인지 부하를 줄여줍니다.

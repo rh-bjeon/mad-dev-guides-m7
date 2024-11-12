@@ -1,157 +1,140 @@
-= 2. Application Modernization - 15 minutes
+= 2. 애플리케이션 현대화 - 15분
 :imagesdir: ../assets/images
 
-== Goals of this lab
+== 이 랩의 목표
 
-This lab aims to learn how developers can modernize their applications quickly by moving them into the OpenShift Application Platform with Red Hat Developer Hub. *Red Hat Developer Hub* is already configured with *Red Hat Single Sign-On*, *OpenShift Pipelines*, *OpenShift GitOps*, and *GitLab*. In this section you will migrate all the backend microservices that are part of the *Cool Store Application* with just a few clicks using Red Hat Developer Hub.
+이 랩의 목표는 개발자가 Red Hat Developer Hub를 사용하여 OpenShift Application Platform으로 애플리케이션을 신속하게 현대화하는 방법을 배우는 것입니다. *Red Hat Developer Hub* 는 이미 *Red Hat Single Sign-On*, *OpenShift Pipelines*, *OpenShift GitOps*, *GitLab* 으로 구성되어 있습니다. 이 섹션에서는 Red Hat Developer Hub를 사용하여 몇 번의 클릭만으로 *Cool Store Application* 에 속한 모든 백엔드 마이크로서비스를 마이그레이션합니다.
 
-*Module goals*:
+*모듈 목표*:
 
-* Create a component for a *Quarkus Java Application* using existing *software templates*. 
-* Overview of application details, exploring topology view, pipelines information in RHDH.
-* Overview of source code repository created.
-* Create a component for a *Spring Boot Java Application* using existing *software templates*. 
-* Overview of application details, exploring topology view, pipelines information from RHDH to *OpenShift*.
+* 기존 **소프트웨어 템플릿**을 사용하여 **Quarkus Java 애플리케이션**의 컴포넌트를 생성합니다.
+* RHDH에서 애플리케이션 세부 정보를 개요로 확인하고, 토폴로지 보기, 파이프라인 정보를 탐색합니다.
+* 생성된 소스 코드 저장소의 개요를 확인합니다.
+* 기존 **소프트웨어 템플릿**을 사용하여 **Spring Boot Java 애플리케이션의 컴포넌트**를 생성합니다.
+* RHDH에서 **OpenShift**로 연결되는 애플리케이션 세부 정보, 토폴로지 보기, 파이프라인 정보를 개요로 확인합니다.
 
-== 2.1 Globex’s Digital Transformation Journey
-Globex, a fictitious retail company, has completed the modernization of its existing retail e-commerce web application as part of its modernization journey.
+== 2.1 Globex의 디지털 전환 여정
+가상의 소매 회사인 Globex는 현대화 여정의 일환으로 기존 소매 전자상거래 웹 애플리케이션을 현대화했습니다.
 
-As part of the modernization process, Globex is looking to accelerate the software development lifecycle with best practices to reduce time to market.  
+현대화 과정의 일환으로 Globex는 소프트웨어 개발 수명 주기를 가속화하고, 시장 출시 시간을 단축하는 최선의 방법을 찾고 있습니다.
 
-*Note*:The following services have an embedded database perfect for development. You do not need to set up the database for this lab.
+**참고**: 다음 서비스에는 개발에 적합한 임베디드 데이터베이스가 내장되어 있습니다. 이 실습에서는 데이터베이스를 설정할 필요가 없습니다.
 
-== 2.2 Move the Java Quarkus application: Inventory
+== 2.2 Java Quarkus 애플리케이션 이동: Inventory
 
-=== 2.2.1 Use Software Templates to build and deploy your first Quarkus application
+=== 2.2.1 소프트웨어 템플릿을 사용하여 첫 번째 Quarkus 애플리케이션 빌드 및 배포
 
-* From the left menu, click on *Create*:
+* 왼쪽 메뉴에서 **Create**를 클릭합니다:
 
-* Select the *Quarkus Backend Application* Template:
+* Quarkus Backend Application 템플릿을 선택합니다:
 
-image:module2/software_template_quarkus.png[width=50%]  
+image
+/software_template_quarkus.png[width=50%]
 
-Follow the next steps to create a component based on the pre-defined Software Templates:
+다음 단계에 따라 사전 정의된 소프트웨어 템플릿을 기반으로 컴포넌트를 생성합니다:
 
-*Step 1* - Provide information about the GitLab location :
+Step 1 - GitLab 위치에 대한 정보 제공:
 
-* *Repo Host*: is the GitLab domain already installed in OpenShift. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
+Repo Host: 이미 OpenShift에 설치된 GitLab 도메인입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 소스 저장소와 매니페스트를 업로드합니다.
+** Repo Host를 OpenShift 도메인으로 교체합니다:
 
-** Replace the *Repo Host* with the OpenShift domain: 
-
-[.console-input]
-[source,bash]
-----
+[.console-input] [source,bash]
 gitlab-gitlab.%SUBDOMAIN%
-----
+image
+/st_gitlab_info.png[width=65%]
 
-image:module2/st_gitlab_info.png[width=65%]  
+Repo Group: 이미 구성된 GitLab 조직입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 소스 저장소와 매니페스트를 업로드합니다.
 
-* *Repo Group*: is the GitLab organization already configured. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
+Next를 클릭합니다.
 
-* Click on *Next*
+Step 2 - 클러스터 ID에 대한 정보 제공:
 
-*Step 2* - Provide information about the Cluster Id:
+Cluster Id: OpenShift 도메인입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 애플리케이션을 빌드하고 배포합니다.
+** Cluster Id를 OpenShift 도메인으로 교체합니다:
 
-* *Cluster Id*: is the OpenShift domain. Red Hat Developer Hub will use this input data to build and deploy the application.
-
-** Replace the *Cluster Id* with the OpenShift domain: 
-
-[.console-input]
-[source,bash]
-----
+[.console-input] [source,bash]
 .%SUBDOMAIN%
-----
+image
+/st_component_clusterid.png[width=65%]
 
-image:module2/st_component_clusterid.png[width=65%]  
+Namespace: OpenShift 네임스페이스입니다. Red Hat Developer Hub는 이 입력 데이터를 사용하여 해당 네임스페이스에 애플리케이션을 빌드하고 배포합니다.
+** N을 사용자 번호로 교체합니다:
 
-* *Namespace*:  is the OpenShift namespace. Red Hat Developer Hub will use this input data to build and deploy the application in that namespace.
-
-** Replace the *N* with the user number:
-
-[.console-input]
-[source,bash]
-----
+[.console-input] [source,bash]
 rhdhub-%USERID%
-----
+image
+/st_component_namespace.png[width=40%]
 
-image:module2/st_component_namespace.png[width=40%]  
+참고: 각 실습 참가자는 모든 애플리케이션에 사용할 고유한 네임스페이스를 할당받았습니다. 각 애플리케이션은 사용자 이름을 기반으로 한 공유 식별자를 가집니다.
 
-*Note*: Each lab participant is already assigned a unique namespace to be used for all the applications. Each application will have a shared identification based on your user name. 
-
-* *Owner*: The owner is your user ID. Red Hat Developer Hub will use this input data in the build and deployment process.
-** Write your user id: 
-
-[.console-input]
-[source,bash]
-----
+Owner: 소유자는 사용자 ID입니다. Red Hat Developer Hub는 빌드 및 배포 과정에서 이 입력 데이터를 사용합니다. ** 사용자 ID를 입력합니다:
+[.console-input] [source,bash]
 %USERID%
-----
+image
+/st_component_owner.png[width=40%]
 
-image:module2/st_component_owner.png[width=40%]  
+Next를 클릭합니다.
+Step 3 - 빌드 정보 제공:
 
-* Click on *Next*
+Image Host: 애플리케이션 이미지가 저장될 레지스트리 URL입니다. 이 실습에서는 OpenShift의 내부 레지스트리를 사용합니다. Red Hat Developer Hub는 빌드 및 배포 과정에서 이 입력 데이터를 사용합니다.
 
-*Step 3* - Provide Build information:
+Image Tag: 이미지를 식별하는 이미지 태그입니다. 애플리케이션 이름과 태그로 이미지를 구성합니다. Red Hat Developer Hub는 빌드 및 배포 과정에서 이 입력 데이터를 사용합니다.
 
-* *Image Host*: The application image will be stored in this registry URL. For this lab, we are using the internal registry of OpenShift. Red Hat Developer Hub will use this input data for the application's build and deployment process.
+Component ID: 컴포넌트 ID는 애플리케이션 이름입니다. Red Hat Developer Hub는 빌드 및 배포 과정에서 이 입력 데이터를 사용합니다.
 
-* *Image Tag*: The image tag used to identify the image. The image will be composed by the application name and tag. Red Hat Developer Hub will use this input data for the application's build and deployment process.
+** Component ID를 사용자 번호로 교체합니다:
 
-* *Component ID*: The component ID is the application name. Red Hat Developer Hub will use this input data for the application's build and deployment process.
-
-** Replace the *Component ID* using *YOUR* user number: 
-
-[.console-input]
-[source,bash]
-----
+[.console-input] [source,bash]
 inventory-app-%USERID%
-----
+image
+/st_component_componentid_quarkus.png[width=40%]
 
-image:module2/st_component_componentid_quarkus.png[width=40%]  
+Review를 클릭합니다.
 
-* Click on *Review*.
+데이터를 검토합니다.
 
-* Review the data.
+샘플 데이터
 
-*Sample data*
+image
+/st_component_review_quarkus.png[width=80%]
 
-image:module2/st_component_review_quarkus.png[width=80%]  
+Create를 클릭합니다.
+=== 2.2.2 애플리케이션 개요 탐색
 
-* Click on *Create*.
+축하합니다! 이제 Red Hat Developer Hub를 사용하여 첫 번째 애플리케이션을 빌드했습니다. 컴포넌트와 애플리케이션 개요를 탐색할 시간입니다.
 
-=== 2.2.2 Explore the application overview
+모든 작업이 녹색으로 표시되면, Open Component in catalog를 클릭합니다.
+image
+/task_activity.png[width=100%]
 
-*Congratulations* you have built your first application with *Red Hat Developer Hub*. It is time to explore the components and the application overview.
+RHDH는 컴포넌트 정보가 있는 새 탭을 엽니다.
+** 화면에 표시된 정보를 검토합니다:
 
-* With all your activities in green, click *Open Component in catalog*. 
+image
+/inventory_overview.png[width=100%]
 
-image:module2/task_activity.png[width=100%]  
+새로 생성된 소스 코드 저장소에 접근하려면 VIEW SOURCE를 클릭합니다.
+image
+/inventory_source.png[width=50%]
 
-* RHDH will open a new tab with the component information. 
+Red Hat Developer Hub에서 inventory 컴포넌트로 돌아갑니다: https://developer-hub-backstage-rhdhub.%SUBDOMAIN%/catalog/default/component/inventory-app-%USERID%[Red Hat Developer Hub UI^].
+파이프라인 정보를 검토하려면 CI 탭을 클릭합니다. 몇 초 후 파이프라인이 시작됩니다. 몇 분 후 파이프라인이 Succeeded 상태로 완료된 것을 볼 수 있습니다.
+image
+/inventory_pipeline.png[width=100%]
 
-** Take some time to review the information in the screen:
+배포 상태를 검토하려면 TOPOLOGY를 클릭합니다. 파이프라인이 성공하면 배포가 파란색으로 표시됩니다.
+** 배포 *inventory-app-%USERID%*를 클릭합니다.
 
-image:module2/inventory_overview.png[width=100%] 
+오른쪽에 애플리케이션 세부 정보가 표시됩니다.
 
-* Click on *VIEW SOURCE* to access the new source code repository created.
+image
+/inventory_deployment.png[width=100%]
 
-image:module2/inventory_source.png[width=50%] 
+참고: 다음 섹션에서 이 보기를 계속 탐색할 것입니다.
 
-* Go back to your inventory component on the Red Hat Developer Hub: https://developer-hub-backstage-rhdhub.%SUBDOMAIN%/catalog/default/component/inventory-app-%USERID%[Red Hat Developer Hub UI^].
-* Click on *CI* tab to review your pipeline information. The pipeline will be triggered in a few seconds. After a few minutes, you will see the pipeline finished as *Succeeded*.
 
-image:module2/inventory_pipeline.png[width=100%] 
 
-* Click on *TOPOLOGY* to review your deployment status. The deployment will be in *blue* immediately after the pipeline succeeds.
-
-** Click on the deployment *inventory-app-%USERID%*
-
-At your right the application details is available. 
-
-image:module2/inventory_deployment.png[width=100%] 
-
-*Note*: We will continue exploring this view in the next section.
-
+~~~~~~~~~~~~~여까지
 == 2.3 Move the Spring Boot application: Catalog application
 
 === 2.3.1 Use Software Templates to build and deploy your first Spring Boot application

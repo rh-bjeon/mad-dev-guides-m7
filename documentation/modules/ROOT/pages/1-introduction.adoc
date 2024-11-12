@@ -22,14 +22,14 @@ Red Hat Developer Hub는 클라우드 서비스 및 온프레미스를 포함한
 * 현대화를 통한 기술 부채 감소: 컨테이너, 쿠버네티스, 클라우드, CI/CD를 채택하기 위해 분산되고 복잡한 기술 필요
 * 경쟁력 유지: 개발자가 혁신에 집중할 수 있도록 애플리케이션 제공 라이프사이클의 각 단계에서 모범 사례 도입
 
-=== 1.2.3 최근 개발자들 과제
+=== 1.2.3 최근 개발자들의 과제
 
 * CI/CD, 보안, 컨테이너, 클라우드와 같은 소프트웨어 도구 외 여러 기술에 대한 학습 필요
 * 자동화와 모범 사례가 구현되지 않았을 때 반복적인 작업 수행
 * 패턴과 지침이 구현되지 않았을 때 시간 허비
 * 다양한 도구 사이에서 컨텍스트 전환
 
-=== 1.2.3 Red Hat Developer Hub의 이점
+=== 1.2.4 Red Hat Developer Hub의 이점
 
 Red Hat® Developer Hub는 개발 프로세스 요소를 시각적으로 통합하여 효율성과 협업을 촉진하는 개발자 포털입니다. 이는 통합되고 개방된 플랫폼을 통해 온보딩 속도, 개발자 생산성 및 협업을 강화하고 개발 팀의 인지 부담과 좌절을 줄여줍니다. 미리 설계되고 지원되는 접근 방식을 통해 기술 리소스를 중앙 집중화하여 개발자는 조직의 경쟁 우위를 제공하는 데 집중할 수 있습니다.
 
@@ -100,6 +100,7 @@ image:intro/rhdevhub_menu.png[width=90%, float=left]
 * **Learning Paths**: 개발자와 DevOps가 기술을 학습하는 데에 활용할 수 있는 가이드
 
 ** **Learning Paths** 탐색: **Developing with Quarkus** 링크를 클릭합니다.
+
 image:intro/learning_paths_explore.png[width=40%]  
 
 * 계속해서 메뉴를 탐색합니다.
@@ -136,6 +137,7 @@ Red Hat Developer Hub에 대한 더 많은 정보는 https://developers.redhat.c
 * 애플리케이션 소스 코드 탐색 
 ** **rhdhub/software-templates** 폴더로 돌아갑니다. 
 ** **scaffolder-templates**를 클릭한 다음 **quarkus-backend** 폴더를 클릭하여 quarkus 애플리케이션에 대한 소프트웨어 템플릿을 탐색합니다.
+
 image:intro/gitlab_st_details.png[width=30%]  
 
 1 - **template file**은 컴포넌트를 생성할 때 워크플로우를 정의하는 파일입니다.

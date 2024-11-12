@@ -22,7 +22,7 @@ Red Hat Developer Hub는 클라우드 서비스 및 온프레미스를 포함한
 * 현대화를 통한 기술 부채 감소: 컨테이너, 쿠버네티스, 클라우드, CI/CD를 채택하기 위해 분산되고 복잡한 기술 필요
 * 경쟁력 유지: 개발자가 혁신에 집중할 수 있도록 애플리케이션 제공 라이프사이클의 각 단계에서 모범 사례 도입
 
-=== 1.2.3 최근 개발자 과제
+=== 1.2.3 최근 개발자들 과제
 
 * CI/CD, 보안, 컨테이너, 클라우드와 같은 소프트웨어 도구 외 여러 기술에 대한 학습 필요
 * 자동화와 모범 사례가 구현되지 않았을 때 반복적인 작업 수행
@@ -59,10 +59,10 @@ Red Hat Developer Hub는 이미 워크샵 환경에 설치 및 구성되어 있�
 
 시작하려면, https://developer-hub-backstage-rhdhub.%SUBDOMAIN%[Red Hat Developer Hub UI^]에 액세스하세요.
 
-Red Hat Developer Hub는 ttps://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On^]으로 이미 구성되어 있습니다. OpenShift 자격 증명으로 로그인하세요.
+Red Hat Developer Hub는 https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On^]으로 이미 구성되어 있습니다. OpenShift 자격 증명으로 로그인하세요.
 
- * **유저 이름**: `%USERID%`
- * **비밀번호**: `{openshift-password}`
+ * **유저이름**: `%USERID%`
+ * **패스워드**: `{openshift-password}`
  
 image::intro/authentication.png[]
 
@@ -76,15 +76,15 @@ image::intro/welcome.png[width=120%]
 
 **Note**: 다음 링크는 미리 정의되어 있으며 직접 설정 및 업데이트할 수 있습니다.
 
-* **Community**: 웹사이트, 블로그, Slack 및 비디오를 통해 커뮤니티와 연결할 수 있는 리소스.
+* **Community**: 웹사이트, 블로그, Slack 및 비디오를 통해 커뮤니티와 연결할 수 있는 리소스
 
-* **Developer tools**: 개발자 도구에 대한 웹사이트 링크.
+* **Developer tools**: 개발자 도구에 대한 웹사이트 링크
 
-* **CI/CD tools**: OpenShift 파이프라인, OpenShift GitOps, Quay.io 등.
+* **CI/CD tools**: OpenShift 파이프라인, OpenShift GitOps, Quay.io 등
 
-* **OpenShift clusters**: OpenShift 클러스터.
+* **OpenShift clusters**: OpenShift 클러스터
 
-* **Security tools**: Keycloak.
+* **Security tools**: Keycloak
 
 
 왼쪽에는 **Red Hat Developer Hub** 메뉴가 있습니다.
@@ -95,23 +95,21 @@ image:intro/rhdevhub_menu.png[width=90%, float=left]
 
 * **Catalog**: 애플리케이션을 빌드하고 배포하기 위한 소프트웨어 카탈로그
 
-* **APIs**: 개발자가 사용할 수 있는 API.
+* **APIs**: 개발자가 사용할 수 있는 API
 
-* **Learning Paths**: 개발자와 DevOps는 조직의 학습 경로를 활용하여 기술을 학습하고 향상할 수 있습니다.
+* **Learning Paths**: 개발자와 DevOps가 기술을 학습하는 데에 활용할 수 있는 가이드
 
-** **Learning Paths**를 검색하세요: **Developing with Quarkus** 링크를 클릭하세요.
-** 링크를 클립합니다.
-
+** **Learning Paths** 탐색: **Developing with Quarkus** 링크를 클릭합니다.
 image:intro/learning_paths_explore.png[width=40%]  
 
 * 계속해서 메뉴를 탐색합니다.
 ** https://developer-hub-backstage-rhdhub.%SUBDOMAIN%[Red Hat Developer Hub UI^]로 돌아갑니다.
 
-* **Tech Radar**: 회사의 현대화 기술 현황을 이해하기 위한 레이더입니다. 이 정보는 각 회사에서 맞춤 설정할 수 있습니다. https://access.redhat.com/documentation/en-us/red_hat_developer_hub/1.1/html/administration_guide_for_red_hat_developer_hub/rhdh-installing-dynamic-plugins[about plugins configuration^]에 대한 자세한 내용은 제품 페이지를 참조하세요.
+* **Tech Radar**: 회사의 현대화 기술 현황을 이해하기 위한 레이더입니다. 이 정보는 각 회사에서 맞춤 설정할 수 있습니다. https://access.redhat.com/documentation/en-us/red_hat_developer_hub/1.1/html/administration_guide_for_red_hat_developer_hub/rhdh-installing-dynamic-plugins[플러그인 설정^]에 대한 자세한 내용은 제품 페이지를 참조하세요.
 
 image:intro/tech_radar.png[width=100%] 
 
-* **Create**: 개발자는 사전 정의된 템플릿을 선택하여 컴포넌트를 생성함으로써 애플리케이션을 빌드하고 배포할 수 있습니다. 이 모듈에서는 대부분의 시간을 이 기능에서 보냅니다.
+* **Create**: 개발자는 사전 정의된 템플릿을 선택하여 컴포넌트들을 생성함으로써 애플리케이션을 빌드하고 배포할 수 있습니다. 이 모듈에서는 대부분의 시간을 이 기능에서 보냅니다.
 
 image:intro/software_templates_all.png[width=120%] 
 
@@ -125,34 +123,33 @@ Red Hat Developer Hub에 대한 더 많은 정보는 https://developers.redhat.c
 
 소프트웨어 템플릿은 이 워크샵을 위해 생성된 GitLab 인스턴스에 저장되어 있습니다.
 
-* 사용할 수 있는 템플릿을 탐색: 
+* 사용할 수 있는 템플릿 탐색
 ** 웹 브라우저에서 https://gitlab-gitlab.%SUBDOMAIN%/rhdhub/software-templates[GitLab^] 인스턴스에 액세스하세요. 
 ** 위 링크를 클릭하면 소프트웨어 템플릿 저장소 **rhdhub/software-templates**로 접속하게 됩니다.
 ** **showcase-templates.yaml** 파일을 클릭하세요. 이 파일은 Red Hat Developer Hub 웹 페이지에 표시되는 템플릿을 정의합니다. 
-** 이 파일에서 애플리케이션 유형별로 정의된 모든 템플릿을 볼 수 있습니다:
+** 이 파일에서 애플리케이션 유형별로 정의된 모든 템플릿을 볼 수 있습니다
     - scaffolder-templates/frontend/template.yaml
     - scaffolder-templates/spring-backend/template.yaml
     - scaffolder-templates/quarkus-backend/template.yaml
     - scaffolder-templates/gateway/template.yaml
 
-* 애플리케이션 소스 코드 탐색: 
+* 애플리케이션 소스 코드 탐색 
 ** **rhdhub/software-templates** 폴더로 돌아갑니다. 
 ** **scaffolder-templates**를 클릭한 다음 **quarkus-backend** 폴더를 클릭하여 quarkus 애플리케이션에 대한 소프트웨어 템플릿을 탐색합니다.
-
 image:intro/gitlab_st_details.png[width=30%]  
 
 1 - **template file**은 컴포넌트를 생성할 때 워크플로우를 정의하는 파일입니다.
 
 * 파일을 검토하세요. 이 파일은 parameter와 step으로 구성됩니다.
-* parameter는 새 구성 요소를 생성할 때 사용자가 제공해야 하는 정보입니다.
+* parameter는 새 컴포넌트를 생성할 때 사용자가 제공해야 하는 정보입니다.
 - **GitLab 위치 정보 제공**
-- **새 구성 요소에 대한 정보 제공**
+- **새 컴포넌트에 대한 정보 제공**
 - **빌드 정보 제공**
 * step들은 UI 워크플로우에서 **Create** 버튼을 클릭하면 실행됩니다.
 
 2 - **skeleton** 폴더는 애플리케이션 소스 코드를 나타냅니다.
 
-* 폴더 내에서 **catalog-info.yaml** 파일을 찾을 수 있습니다. 이 파일은 구성 요소가 생성된 후 구성 요소 개요에 표시되는 **링크**를 정의합니다. 여기에는 **OpenShift** 애플리케이션, **OpenShift 파이프라인**, 그리고 https://developers.redhat.com/products/openshift-dev-spaces/overview[**Red Hat OpenShift Dev Spaces**^]와 같이 통합 IDE를 통해 소스 코드 변경을 할 수 있도록 하는 링크가 포함되어 있습니다.
+* 폴더 내에서 **catalog-info.yaml** 파일을 찾을 수 있습니다. 이 파일은 컴포넌트가 생성된 후 컴포넌트 개요에 표시되는 **링크**를 정의합니다. 여기에는 **OpenShift** 애플리케이션, **OpenShift 파이프라인**, 그리고 https://developers.redhat.com/products/openshift-dev-spaces/overview[**Red Hat OpenShift Dev Spaces**^]와 같이 통합 IDE를 통해 소스 코드 변경을 할 수 있도록 하는 링크가 포함되어 있습니다.
 
 3 - 애플리케이션 매니페스트는 다음으로 구성됩니다.
 

@@ -362,16 +362,14 @@ image::module3/file_change.png[width=100%]
 
 4.8 **line 12**의 **Title**에서 선호하는 도시 이름을 추가하여 업데이트합니다. Red Hat OpenShift Dev Spaces는 코드를 업데이트하는 동안 자동으로 변경사항을 저장하므로 파일을 저장할 필요가 없습니다.
 
-*t예시:*
+*예시:*
 
 image::module3/dev_file_changed.png[width=80%]
 
 4.9 소스 코드 변경 사항을 커밋합니다.
 
-image::module3/icon_source_control.png[width=60%, float=left]
-
 * **Source Control** 아이콘을 클릭합니다. 
-image::module3/icon_source_control.png[width=60%]
+image::module3/icon_source_control.png[width=60%, float=right]
 
 * 커밋에 대한 **Message**를 추가합니다.
 * Commit 옆의 **화살표**를 클립합니다.
